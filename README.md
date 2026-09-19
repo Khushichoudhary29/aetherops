@@ -1,7 +1,6 @@
 # AETHEROPS 🚀
 > **Stateful, Event-Driven Multi-Agent Control Center for Enterprise AI Operations**
 
-[![COER University](https://img.shields.io/badge/University-COER_University_Roorkee-blue)](file:///C:/Users/User/.gemini/antigravity-ide/scratch/aetherops/README.md)
 [![Python](https://img.shields.io/badge/Python-3.11%2B-brightgreen)](file:///C:/Users/User/.gemini/antigravity-ide/scratch/aetherops/README.md)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.110.0-teal)](file:///C:/Users/User/.gemini/antigravity-ide/scratch/aetherops/README.md)
 [![LangGraph](https://img.shields.io/badge/LangGraph-0.0.25-orange)](file:///C:/Users/User/.gemini/antigravity-ide/scratch/aetherops/README.md)
@@ -10,21 +9,20 @@
 
 ---
 
-## 📌 Project Synopsis & Academic Details
-- **Degree**: Bachelor of Technology (B.Tech) - Computer Science and Engineering
-- **Institution**: Department of Computer Science & Engineering, College of Smart Computing, COER University, Roorkee, Uttarakhand
-- **Supervisor**: Ms. Nidhi Rana
-- **Academic Year**: September 2026
+## 📌 Project Overview
+**AetherOps** is an event-driven, stateful multi-agent control center engineered to break down unstructured high-level user instructions into structured executable sub-tasks and delegate them across a specialized cluster of Large Language Model agents (Supervisor Planner, Coder, Execution Sandbox Runner, Security Auditor, and Reviewer). 
+
+Built on a Directed Acyclic Graph state machine using Python (FastAPI + LangGraph) and React, the system features an isolated Python subprocess execution sandbox with automated self-healing reflection loops, full-duplex WebSocket state streaming, and a multi-dashboard operational control panel.
 
 ---
 
 ## 👥 Team Members & Responsibilities Division
 
-| Member | Name | Student ID | Designated Role & Module Scope | Status |
-| :--- | :--- | :--- | :--- | :--- |
-| **Member 1** | **Khushi Choudhary** | `243025127` | **Lead Systems & Canvas Architect**: Core Backend Engine (`FastAPI` + `LangGraph`), Subprocess Sandbox Execution Runner, Full-Duplex WebSocket Dispatcher, Repository Foundation & **Dashboard 1: Dynamic DAG Orchestration Canvas (React Flow) & Multimodal Output Viewer**. | **Implemented & Maintained** |
-| **Member 2** | **Pragya Singhal** | `243025178` | **AgentOps & Telemetry Specialist**: **Dashboard 2: AgentOps Telemetry Station** (`Recharts` metrics tracking token burn rates, latency, self-healing recovery + `xterm.js` live execution terminal). | *Integration Slot Ready* |
-| **Member 3** | **Riya Choudhary** | `243025202` | **Security & Governance Specialist**: **Dashboard 3: Human-in-the-Loop (HITL) Security Terminal** (Safety guardrails, restricted call interrupts, approval breakpoints, prompt injection). | *Integration Slot Ready* |
+| Member | Name | Designated Role & Module Scope | Status |
+| :--- | :--- | :--- | :--- |
+| **Member 1** | **Khushi Choudhary** | **Lead Systems & Canvas Architect**: Core Backend Engine (`FastAPI` + `LangGraph`), Subprocess Sandbox Execution Runner, Full-Duplex WebSocket Dispatcher, Repository Foundation & **Dashboard 1: Dynamic DAG Orchestration Canvas (React Flow) & Multimodal Output Viewer**. | **Implemented & Maintained** |
+| **Member 2** | **Pragya Singhal** | **AgentOps & Telemetry Specialist**: **Dashboard 2: AgentOps Telemetry Station** (`Recharts` metrics tracking token burn rates, latency, self-healing recovery + `xterm.js` live execution terminal). | *Integration Slot Ready* |
+| **Member 3** | **Riya Choudhary** | **Security & Governance Specialist**: **Dashboard 3: Human-in-the-Loop (HITL) Security Terminal** (Safety guardrails, restricted call interrupts, approval breakpoints, prompt injection). | *Integration Slot Ready* |
 
 ---
 
@@ -181,9 +179,3 @@ npm run dev
 
 ### WebSocket Endpoint
 - `ws://localhost:8000/ws/dag`: Real-time full-duplex WebSocket streaming graph node transitions, execution logs, and multimodal artifact payloads.
-
----
-
-## 📄 License & Attribution
-Developed as part of the Senior B.Tech Capstone Project at **COER University, Roorkee, Uttarakhand**.  
-Copyright © 2026 AetherOps Team. All Rights Reserved.
