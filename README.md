@@ -1,18 +1,16 @@
 # AETHEROPS 🚀
 > **Stateful, Event-Driven Multi-Agent Control Center for Enterprise AI Operations**
 
-[![Python](https://img.shields.io/badge/Python-3.11%2B-brightgreen)](file:///C:/Users/User/.gemini/antigravity-ide/scratch/aetherops/README.md)
-[![FastAPI](https://img.shields.io/badge/FastAPI-0.110.0-teal)](file:///C:/Users/User/.gemini/antigravity-ide/scratch/aetherops/README.md)
-[![LangGraph](https://img.shields.io/badge/LangGraph-0.0.25-orange)](file:///C:/Users/User/.gemini/antigravity-ide/scratch/aetherops/README.md)
-[![React](https://img.shields.io/badge/React-18.2-blue)](file:///C:/Users/User/.gemini/antigravity-ide/scratch/aetherops/README.md)
-[![React_Flow](https://img.shields.io/badge/React_Flow-%40xyflow%2Freact-purple)](file:///C:/Users/User/.gemini/antigravity-ide/scratch/aetherops/README.md)
+[![Python](https://img.shields.io/badge/Python-3.11%2B-brightgreen)](README.md)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.110.0-teal)](README.md)
+[![LangGraph](https://img.shields.io/badge/LangGraph-0.0.25-orange)](README.md)
+[![React](https://img.shields.io/badge/React-18.2-blue)](README.md)
+[![React_Flow](https://img.shields.io/badge/React_Flow-%40xyflow%2Freact-purple)](README.md)
 
 ---
 
 ## 📌 Project Overview
-**AetherOps** is an event-driven, stateful multi-agent control center engineered to break down unstructured high-level user instructions into structured executable sub-tasks and delegate them across a specialized cluster of Large Language Model agents (Supervisor Planner, Coder, Execution Sandbox Runner, Security Auditor, and Reviewer). 
-
-Built on a Directed Acyclic Graph state machine using Python (FastAPI + LangGraph) and React, the system features an isolated Python subprocess execution sandbox with automated self-healing reflection loops, full-duplex WebSocket state streaming, and a multi-dashboard operational control panel.
+**AetherOps** is an event-driven, stateful multi-agent control center engineered to decompose unstructured high-level user goals into structured executable sub-tasks and delegate them across a specialized cluster of Large Language Model agents. Built on a Directed Acyclic Graph (DAG) state machine using **Python (FastAPI + LangGraph)** and a **React Flow** frontend connected via full-duplex WebSockets, AetherOps provides real-time task orchestration, autonomous self-healing subprocess code execution, live telemetry monitoring, and Human-in-the-Loop (HITL) security guardrails.
 
 ---
 
