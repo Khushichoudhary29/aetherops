@@ -20,13 +20,16 @@ import {
   Loader2, 
   Clock, 
   Code2, 
-  FileText, 
   Terminal, 
   Cpu, 
   Sparkles,
   Info,
-  ChevronRight,
-  Maximize2
+  Copy,
+  Download,
+  Check,
+  Bug,
+  Zap,
+  Edit3
 } from 'lucide-react';
 
 // Custom React Flow Node Component for AetherOps Agents
@@ -59,7 +62,7 @@ const CustomAgentNode = ({ data }) => {
       case 'self_healing':
         return (
           <span className="flex items-center gap-1 text-[10px] bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded font-semibold">
-            <AlertTriangle className="w-3 h-3" /> SELF-HEALING
+            <AlertTriangle className="w-3 h-3 animate-bounce" /> SELF-HEALING
           </span>
         );
       case 'completed':
@@ -121,6 +124,12 @@ export default function Dashboard1_DagCanvas() {
   const [activeArtifactTab, setActiveArtifactTab] = useState('code');
   const [isExecuting, setIsExecuting] = useState(false);
 
+  // New Features State
+  const [isCopied, setIsCopied] = useState(false);
+  const [isSelfHealingDemo, setIsSelfHealingDemo] = useState(false);
+  const [customCode, setCustomCode] = useState('');
+  const [isEditingCode, setIsEditingCode] = useState(false);
+
   // React Flow state
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
@@ -150,13 +159,22 @@ export default function Dashboard1_DagCanvas() {
       target: edge.target,
       label: edge.label,
       animated: edge.animated || nodeIsRunning(graphState, edge.source),
-      style: { stroke: edge.source === 'node-sandbox' && edge.target === 'node-coder' ? '#F59E0B' : '#38BDF8', strokeWidth: 2 },
+      style: { 
+        stroke: edge.source === 'node-sandbox' && edge.target === 'node-coder' ? '#F59E0B' : '#38BDF8', 
+        strokeWidth: 2.5 
+      },
       markerEnd: { type: MarkerType.ArrowClosed, color: '#38BDF8' },
     }));
 
     setNodes(flowNodes);
     setEdges(flowEdges);
-  }, [setNodes, setEdges]);
+
+    // Sync custom code view
+    const codeArtifact = graphState.artifacts?.find(a => a.type === 'code');
+    if (codeArtifact && !customCode) {
+      setCustomCode(codeArtifact.content);
+    }
+  }, [setNodes, setEdges, customCode]);
 
   const nodeIsRunning = (state, nodeId) => {
     const node = state.nodes.find(n => n.id === nodeId);
@@ -262,8 +280,103 @@ export default function Dashboard1_DagCanvas() {
     setIsExecuting(false);
   };
 
+  // Reset & Clear Canvas
+  const handleResetCanvas = () => {
+    setTaskId(null);
+    setDagState(null);
+    setNodes([]);
+    setEdges([]);
+    setSelectedNode(null);
+    setCustomCode('');
+    setIsSelfHealingDemo(false);
+  };
+
+  // Self-Healing Demonstration Simulation
+  const handleTriggerSelfHealingDemo = () => {
+    if (!dagState) return;
+    setIsSelfHealingDemo(true);
+    
+    // Simulate error injection & self-healing state transitions
+    const updatedNodes = dagState.nodes.map(n => {
+      if (n.id === 'node-sandbox') {
+        return {
+          ...n,
+          status: 'self_healing',
+          stderr: 'ZeroDivisionError: division by zero in calculate_primes() at line 8',
+          stdout: 'Executing isolated script...',
+          exit_code: 1
+        };
+      }
+      return n;
+    });
+
+    const updatedState = {
+      ...dagState,
+      nodes: updatedNodes,
+      execution_logs: [
+        ...dagState.execution_logs,
+        `[${new Date().toLocaleTimeString()}] Subprocess Sandbox Exception: ZeroDivisionError detected! Routing traceback back to Coder Agent (Self-Healing Loop active).`
+      ]
+    };
+
+    setDagState(updatedState);
+    updateReactFlowGraph(updatedState);
+
+    // Auto recover after 2.5 seconds
+    setTimeout(() => {
+      const recoveredNodes = updatedNodes.map(n => {
+        if (n.id === 'node-sandbox') {
+          return {
+            ...n,
+            status: 'completed',
+            stderr: '',
+            stdout: 'Self-Healing Refactoring Completed. Execution Successful (exit code 0).\nComputed primes: [2, 3, 5, 7, 11, 13, 17, 19, 23, 29]',
+            exit_code: 0
+          };
+        }
+        return n;
+      });
+
+      const recoveredState = {
+        ...updatedState,
+        nodes: recoveredNodes,
+        execution_logs: [
+          ...updatedState.execution_logs,
+          `[${new Date().toLocaleTimeString()}] Self-Healing Refactor Success: Coder Agent patched ZeroDivisionError. Subprocess Sandbox compiled cleanly!`
+        ]
+      };
+
+      setDagState(recoveredState);
+      updateReactFlowGraph(recoveredState);
+      setIsSelfHealingDemo(false);
+    }, 2500);
+  };
+
+  // Copy Code to Clipboard
+  const handleCopyCode = () => {
+    const codeToCopy = customCode || dagState?.artifacts?.find(a => a.type === 'code')?.content || '';
+    if (!codeToCopy) return;
+    navigator.clipboard.writeText(codeToCopy);
+    setIsCopied(true);
+    setTimeout(() => setIsCopied(false), 2000);
+  };
+
+  // Download Code as File
+  const handleDownloadCode = () => {
+    const codeToDownload = customCode || dagState?.artifacts?.find(a => a.type === 'code')?.content || '';
+    if (!codeToDownload) return;
+    const blob = new Blob([codeToDownload], { type: 'text/plain;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'aetherops_synthesized_script.py';
+    link.click();
+    URL.revokeObjectURL(url);
+  };
+
   const onNodeClick = (_, node) => {
     setSelectedNode(node.data);
+    setActiveArtifactTab('inspector');
   };
 
   return (
@@ -279,7 +392,7 @@ export default function Dashboard1_DagCanvas() {
             type="text"
             value={userGoal}
             onChange={(e) => setUserGoal(e.target.value)}
-            placeholder="Enter high-level prompt goal (e.g. Build a web scraper, analyze dataset...)"
+            placeholder="Enter high-level prompt goal..."
             className="flex-1 bg-gray-950 border border-gray-800 rounded-lg px-4 py-2 text-sm text-white focus:outline-none focus:border-cyan-500 font-sans"
           />
           <button
@@ -292,12 +405,13 @@ export default function Dashboard1_DagCanvas() {
           </button>
         </div>
 
-        {/* Execution Flow Action Buttons */}
+        {/* Execution Controls */}
         <div className="flex items-center gap-2">
           <button
             onClick={handleStepNode}
             disabled={!taskId || isExecuting}
             className="px-3 py-2 bg-gray-800 hover:bg-gray-700 disabled:opacity-40 text-gray-200 text-xs font-semibold rounded-lg border border-gray-700 flex items-center gap-1.5 transition"
+            title="Step through nodes one by one"
           >
             <Play className="w-3.5 h-3.5 text-cyan-400" />
             <span>Step Next Node</span>
@@ -307,24 +421,43 @@ export default function Dashboard1_DagCanvas() {
             onClick={handleAutoRun}
             disabled={!taskId || isExecuting}
             className="px-3 py-2 bg-emerald-600/20 hover:bg-emerald-600/30 disabled:opacity-40 text-emerald-300 border border-emerald-500/30 text-xs font-semibold rounded-lg flex items-center gap-1.5 transition"
+            title="Run entire graph end-to-end"
           >
             <FastForward className="w-3.5 h-3.5 text-emerald-400" />
             <span>Auto-Run Flow</span>
           </button>
+
+          <button
+            onClick={handleTriggerSelfHealingDemo}
+            disabled={!dagState || isSelfHealingDemo}
+            className="px-3 py-2 bg-amber-500/20 hover:bg-amber-500/30 disabled:opacity-40 text-amber-300 border border-amber-500/30 text-xs font-semibold rounded-lg flex items-center gap-1.5 transition"
+            title="Inject simulated runtime error to demonstrate self-healing loop"
+          >
+            <Bug className="w-3.5 h-3.5 text-amber-400" />
+            <span>Self-Healing Demo</span>
+          </button>
+
+          <button
+            onClick={handleResetCanvas}
+            className="p-2 bg-gray-900 hover:bg-gray-800 text-gray-400 hover:text-white rounded-lg border border-gray-800 transition"
+            title="Reset DAG Canvas"
+          >
+            <RotateCcw className="w-4 h-4" />
+          </button>
         </div>
       </div>
 
-      {/* Main Content Workspace: DAG Canvas (Left) + Multimodal Output Viewer (Right) */}
+      {/* Main Content Workspace: Canvas (Left) + Output Viewer (Right) */}
       <div className="flex-1 flex overflow-hidden">
         
-        {/* Left Side: React Flow Orchestration Canvas */}
+        {/* Left Side: React Flow Canvas */}
         <div className="flex-1 relative bg-[#0B0F19]">
           {nodes.length === 0 ? (
             <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center z-10 bg-darkBg/90">
               <Cpu className="w-12 h-12 text-gray-600 mb-3 animate-pulse" />
-              <h3 className="text-lg font-bold text-gray-300 mb-1">AetherOps DAG Canvas Initialized</h3>
+              <h3 className="text-lg font-bold text-gray-300 mb-1">AetherOps DAG Canvas</h3>
               <p className="text-xs text-gray-500 max-w-md mb-4">
-                Enter a high-level goal in the top prompt bar and click <strong className="text-cyan-400">Decompose & Generate DAG</strong> to construct the LangGraph task execution pipeline.
+                Enter a goal in the top prompt bar and click <strong className="text-cyan-400">Decompose & Generate DAG</strong> to construct the task execution graph.
               </p>
             </div>
           ) : null}
@@ -348,7 +481,7 @@ export default function Dashboard1_DagCanvas() {
             />
           </ReactFlow>
 
-          {/* Floating Status Bar Overlay */}
+          {/* Floating Status Bar */}
           {dagState && (
             <div className="absolute bottom-4 left-4 z-10 bg-cardBg/90 backdrop-blur border border-panelBorder rounded-lg p-3 text-xs flex items-center gap-4 text-gray-300 shadow-xl font-mono">
               <span className="flex items-center gap-1.5">
@@ -361,7 +494,7 @@ export default function Dashboard1_DagCanvas() {
           )}
         </div>
 
-        {/* Right Side: Multimodal Output Viewer & Node Inspector Panel */}
+        {/* Right Side: Output Viewer & Inspector Panel */}
         <div className="w-96 bg-cardBg border-l border-panelBorder flex flex-col h-full overflow-hidden">
           
           {/* Panel Tab Header */}
@@ -391,31 +524,56 @@ export default function Dashboard1_DagCanvas() {
             </button>
           </div>
 
-          {/* Panel Tab Content */}
+          {/* Panel Content */}
           <div className="flex-1 p-4 overflow-y-auto font-mono text-xs">
             
             {/* Tab 1: Code Viewer */}
             {activeArtifactTab === 'code' && (
               <div className="space-y-3">
                 <div className="flex items-center justify-between text-gray-400">
-                  <span className="font-semibold text-white">Synthesized Code Output</span>
-                  <span className="text-[10px] bg-gray-800 text-gray-400 px-2 py-0.5 rounded">Python 3.11</span>
-                </div>
-                
-                {dagState?.artifacts?.find(a => a.type === 'code') ? (
-                  <pre className="p-3 bg-gray-950 border border-gray-800 rounded-lg text-cyan-300 overflow-x-auto leading-relaxed">
-                    {dagState.artifacts.find(a => a.type === 'code').content}
-                  </pre>
-                ) : (
-                  <div className="p-8 text-center text-gray-500">
-                    <Code2 className="w-8 h-8 mx-auto mb-2 opacity-40" />
-                    <p>No synthesized code artifact generated yet.</p>
+                  <span className="font-semibold text-white">Synthesized Python Script</span>
+                  
+                  {/* Action Buttons: Copy & Download */}
+                  <div className="flex items-center gap-1.5">
+                    <button
+                      onClick={() => setIsEditingCode(!isEditingCode)}
+                      className="p-1 hover:bg-gray-800 text-gray-400 hover:text-white rounded"
+                      title={isEditingCode ? "Lock Code" : "Edit Code"}
+                    >
+                      <Edit3 className="w-3.5 h-3.5" />
+                    </button>
+                    <button
+                      onClick={handleCopyCode}
+                      className="p-1 hover:bg-gray-800 text-gray-400 hover:text-white rounded flex items-center gap-1 text-[10px]"
+                      title="Copy code"
+                    >
+                      {isCopied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+                    </button>
+                    <button
+                      onClick={handleDownloadCode}
+                      className="p-1 hover:bg-gray-800 text-gray-400 hover:text-white rounded"
+                      title="Download script .py"
+                    >
+                      <Download className="w-3.5 h-3.5" />
+                    </button>
                   </div>
+                </div>
+
+                {isEditingCode ? (
+                  <textarea
+                    value={customCode}
+                    onChange={(e) => setCustomCode(e.target.value)}
+                    className="w-full h-80 p-3 bg-gray-950 border border-cyan-500/50 rounded-lg text-cyan-300 font-mono text-xs focus:outline-none"
+                  />
+                ) : (
+                  <pre className="p-3 bg-gray-950 border border-gray-800 rounded-lg text-cyan-300 overflow-x-auto leading-relaxed">
+                    {customCode || (dagState?.artifacts?.find(a => a.type === 'code')?.content) || '# No synthesized code artifact yet.'}
+                  </pre>
                 )}
               </div>
             )}
 
-            {/* Tab 2: Logs Viewer */}
+            {/* Tab 2: Execution Logs */}
             {activeArtifactTab === 'logs' && (
               <div className="space-y-3">
                 <div className="flex items-center justify-between text-gray-400">
@@ -429,13 +587,13 @@ export default function Dashboard1_DagCanvas() {
                       <p key={idx} className="text-gray-400 border-b border-gray-900 pb-1">{log}</p>
                     ))
                   ) : (
-                    <p className="text-gray-600 italic">No logs recorded.</p>
+                    <p className="text-gray-600 italic">No logs recorded yet.</p>
                   )}
                 </div>
               </div>
             )}
 
-            {/* Tab 3: Node Detail Inspector */}
+            {/* Tab 3: Node Inspector */}
             {activeArtifactTab === 'inspector' && (
               <div className="space-y-4">
                 <h4 className="font-bold text-white text-sm">Node Details Inspector</h4>
@@ -473,7 +631,7 @@ export default function Dashboard1_DagCanvas() {
                 ) : (
                   <div className="p-8 text-center text-gray-500">
                     <Info className="w-8 h-8 mx-auto mb-2 opacity-40" />
-                    <p>Click any node on the canvas to inspect its runtime payload and tracebacks.</p>
+                    <p>Click any node on the graph canvas to inspect runtime stdout/stderr logs.</p>
                   </div>
                 )}
               </div>
