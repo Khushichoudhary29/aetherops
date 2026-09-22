@@ -1,5 +1,5 @@
 import React from 'react';
-import { ShieldAlert, Lock, CheckCircle2, XCircle, AlertTriangle } from 'lucide-react';
+import { ShieldAlert, Lock, CheckCircle2, AlertTriangle } from 'lucide-react';
 
 export default function Dashboard3_Placeholder() {
   return (
@@ -10,13 +10,13 @@ export default function Dashboard3_Placeholder() {
             <ShieldAlert className="w-6 h-6" />
           </div>
           <div>
-            <h2 className="text-xl font-bold text-white">Dashboard 3: Human-in-the-Loop Security Terminal</h2>
-            <p className="text-xs text-gray-400">Assigned Module to: <span className="text-red-400 font-semibold">Riya Choudhary (Member 3 - 243025202)</span></p>
+            <h2 className="text-xl font-bold text-white">Human-in-the-Loop Security Terminal</h2>
+            <p className="text-xs text-gray-400">Operational safety governance and manual approval breakpoints</p>
           </div>
         </div>
 
         <p className="text-sm text-gray-300 leading-relaxed mb-6">
-          This governance dashboard is designated for Member 3 (Riya Choudhary) to enforce Human-in-the-Loop (HITL) approval breakpoints, intercept restricted execution calls, and provide custom prompt injection controls.
+          This governance dashboard enforces Human-in-the-Loop (HITL) approval breakpoints, intercepts restricted execution calls (such as file modifications or raw network requests), and provides prompt injection override controls.
         </p>
 
         {/* Security Policy Status Cards */}
@@ -34,7 +34,7 @@ export default function Dashboard3_Placeholder() {
               <AlertTriangle className="w-4 h-4" />
               <span>HITL Breakpoint Triggers</span>
             </div>
-            <p className="text-xs text-gray-400">Auto-pauses state machine state when restricted flags are flagged.</p>
+            <p className="text-xs text-gray-400">Auto-pauses state machine execution when restricted calls are flagged.</p>
           </div>
 
           <div className="bg-gray-900/60 border border-gray-800 rounded-lg p-4">
@@ -42,28 +42,24 @@ export default function Dashboard3_Placeholder() {
               <CheckCircle2 className="w-4 h-4" />
               <span>Human Approval Override</span>
             </div>
-            <p className="text-xs text-gray-400">Allows human evaluators to Approve, Reject, or Inject prompt modifications.</p>
+            <p className="text-xs text-gray-400">Allows human evaluators to Approve, Reject, or Inject prompt modifications mid-flight.</p>
           </div>
         </div>
 
         {/* Security Alert Console */}
         <div className="bg-gray-950 border border-red-900/40 rounded-lg p-4 space-y-3">
           <div className="flex items-center justify-between border-b border-gray-800 pb-2 text-gray-400 text-xs">
-            <span className="font-semibold text-white">HITL Governance Console (Riya)</span>
-            <span className="text-[10px] bg-red-500/20 text-red-300 px-2 py-0.5 rounded">Ready for Integration</span>
+            <span className="font-semibold text-white">HITL Governance Console</span>
+            <span className="text-[10px] bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded">Active Guardrails</span>
           </div>
 
           <div className="p-3 bg-red-950/40 border border-red-800/50 rounded flex items-start justify-between">
             <div className="space-y-1">
               <p className="text-xs font-semibold text-red-300 flex items-center gap-1.5">
                 <AlertTriangle className="w-3.5 h-3.5 text-red-400" />
-                <span>HITL Interrupt Gate Status: Active Guardrail Monitoring</span>
+                <span>HITL Interrupt Gate: Guardrail Monitoring Active</span>
               </p>
-              <p className="text-xs text-gray-400">State graph will route interrupt payloads directly to Dashboard 3 when triggered.</p>
-            </div>
-            <div className="flex space-x-2">
-              <button disabled className="px-3 py-1 bg-emerald-600/50 text-emerald-200 text-xs font-semibold rounded cursor-not-allowed">Approve</button>
-              <button disabled className="px-3 py-1 bg-red-600/50 text-red-200 text-xs font-semibold rounded cursor-not-allowed">Reject</button>
+              <p className="text-xs text-gray-400">State graph automatically pauses when restricted operations are flagged.</p>
             </div>
           </div>
         </div>

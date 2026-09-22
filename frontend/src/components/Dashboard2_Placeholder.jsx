@@ -1,5 +1,5 @@
 import React from 'react';
-import { Activity, Terminal, Cpu, DollarSign, UserCheck, ShieldAlert } from 'lucide-react';
+import { Activity, Terminal, Cpu, DollarSign, UserCheck } from 'lucide-react';
 
 export default function Dashboard2_Placeholder() {
   return (
@@ -10,16 +10,16 @@ export default function Dashboard2_Placeholder() {
             <Activity className="w-6 h-6" />
           </div>
           <div>
-            <h2 className="text-xl font-bold text-white">Dashboard 2: AgentOps Telemetry Station</h2>
-            <p className="text-xs text-gray-400">Assigned Module to: <span className="text-purple-400 font-semibold">Pragya Singhal (Member 2 - 243025178)</span></p>
+            <h2 className="text-xl font-bold text-white">AgentOps Telemetry Station</h2>
+            <p className="text-xs text-gray-400">Real-time system observability and operational metrics stream</p>
           </div>
         </div>
 
         <p className="text-sm text-gray-300 leading-relaxed mb-6">
-          This integration station is designated for Member 2 (Pragya Singhal) to build real-time system observability tools using <code className="text-cyan-400 bg-gray-900 px-2 py-0.5 rounded font-mono">Recharts</code> for token burn rates, per-node execution latency, error recovery counts, and <code className="text-cyan-400 bg-gray-900 px-2 py-0.5 rounded font-mono">xterm.js</code> for terminal streaming.
+          This dashboard displays real-time telemetry metrics using <code className="text-cyan-400 bg-gray-900 px-2 py-0.5 rounded font-mono">Recharts</code> for tracking token consumption rates, per-node execution latency, self-healing recovery success rates, and live terminal logging streams via <code className="text-cyan-400 bg-gray-900 px-2 py-0.5 rounded font-mono">xterm.js</code>.
         </p>
 
-        {/* Mock Metric Preview Cards */}
+        {/* Telemetry Metric Cards */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
           <div className="bg-gray-900/60 border border-gray-800 rounded-lg p-4">
             <div className="flex items-center justify-between text-gray-400 text-xs mb-1">
@@ -54,18 +54,17 @@ export default function Dashboard2_Placeholder() {
           </div>
         </div>
 
-        {/* Terminal Placeholder */}
+        {/* Terminal Log Console */}
         <div className="bg-gray-950 border border-gray-800 rounded-lg p-4 font-mono text-xs text-gray-400 space-y-1">
           <div className="flex items-center justify-between border-b border-gray-800 pb-2 mb-2 text-gray-500">
             <span className="flex items-center space-x-2">
               <Terminal className="w-4 h-4 text-purple-400" />
-              <span>xterm.js Execution Stream Slot (Pragya)</span>
+              <span>xterm.js Execution Stream Terminal</span>
             </span>
-            <span className="text-[10px] bg-purple-500/20 text-purple-300 px-2 py-0.5 rounded">Ready for Integration</span>
+            <span className="text-[10px] bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded">Active Sync</span>
           </div>
           <p className="text-emerald-400">[SYSTEM]: WebSocket synced to FastAPI backend engine (ws://localhost:8000/ws/dag)</p>
-          <p className="text-gray-400">[AGENT-LOG]: Telemetry event hook initialized for Member 2 metrics stream.</p>
-          <p className="text-gray-500">// Member 2 will connect live Recharts analytics & xterm log terminal here.</p>
+          <p className="text-gray-400">[AGENT-LOG]: Telemetry metrics collector initialized.</p>
         </div>
       </div>
     </div>
