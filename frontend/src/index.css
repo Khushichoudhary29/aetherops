@@ -4,66 +4,106 @@
 
 @layer base {
   body {
-    background-color: #14161D;
-    color: #F3F4F6;
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    transition: background-color 0.3s ease, color 0.3s ease;
   }
 }
 
-/* React Flow Warm Industrial styling overrides */
-.react-flow__renderer {
+/* Light & Dark Theme Variable Utility Overrides */
+.light-mode {
+  background-color: #F8FAFC;
+  color: #0F172A;
+}
+
+.dark-mode {
+  background-color: #14161D;
+  color: #F3F4F6;
+}
+
+/* React Flow styling overrides - Light Mode */
+.light-mode .react-flow__renderer {
+  background-color: #F8FAFC !important;
+}
+
+.light-mode .react-flow__controls {
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08);
+  border-radius: 12px;
+  background: #FFFFFF !important;
+  border: 1px solid #E2E8F0 !important;
+}
+
+.light-mode .react-flow__controls-button {
+  background: #FFFFFF !important;
+  border-bottom: 1px solid #E2E8F0 !important;
+  fill: #64748B !important;
+}
+
+.light-mode .react-flow__controls-button:hover {
+  background: #F1F5F9 !important;
+  fill: #D97706 !important;
+}
+
+/* React Flow styling overrides - Dark Mode */
+.dark-mode .react-flow__renderer {
   background-color: #14161D !important;
 }
 
-.react-flow__edge-path {
-  stroke-width: 2.5;
-}
-
-.react-flow__controls {
+.dark-mode .react-flow__controls {
   box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.6);
-  border-radius: 10px;
+  border-radius: 12px;
   background: #1C1F28 !important;
   border: 1px solid #2D3342 !important;
 }
 
-.react-flow__controls-button {
+.dark-mode .react-flow__controls-button {
   background: #1C1F28 !important;
   border-bottom: 1px solid #2D3342 !important;
   fill: #A1A1AA !important;
 }
 
-.react-flow__controls-button:hover {
+.dark-mode .react-flow__controls-button:hover {
   background: #272B36 !important;
   fill: #F59E0B !important;
 }
 
-/* Custom Visible Scrollbars for all Panels & Lists */
+/* Edge stroke styling */
+.react-flow__edge-path {
+  stroke-width: 2.5;
+}
+
+/* Custom Scrollbars - Adaptable to Light & Dark */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 7px;
+  height: 7px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #14161D;
+  background: transparent;
+}
+
+.light-mode ::-webkit-scrollbar-thumb {
+  background: #CBD5E1;
   border-radius: 4px;
 }
 
-::-webkit-scrollbar-thumb {
+.light-mode ::-webkit-scrollbar-thumb:hover {
+  background: #D97706;
+}
+
+.dark-mode ::-webkit-scrollbar-thumb {
   background: #2D3342;
   border-radius: 4px;
-  border: 2px solid #14161D;
 }
 
-::-webkit-scrollbar-thumb:hover {
+.dark-mode ::-webkit-scrollbar-thumb:hover {
   background: #F59E0B;
 }
 
-/* Node Glow Animations */
-@keyframes pulse-warm-amber {
-  0%, 100% { box-shadow: 0 0 15px rgba(245, 158, 11, 0.3); }
-  50% { box-shadow: 0 0 25px rgba(245, 158, 11, 0.7); }
+/* Micro-animations */
+@keyframes warm-pulse {
+  0%, 100% { box-shadow: 0 0 15px rgba(217, 119, 6, 0.25); }
+  50% { box-shadow: 0 0 25px rgba(217, 119, 6, 0.5); }
 }
 
-.node-running-warm {
-  animation: pulse-warm-amber 1.8s infinite ease-in-out;
+.node-running-pulse {
+  animation: warm-pulse 1.8s infinite ease-in-out;
 }
