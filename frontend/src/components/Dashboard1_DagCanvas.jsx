@@ -32,27 +32,25 @@ import {
   ListTodo,
   Plus,
   Trash2,
-  ChevronDown,
-  ChevronUp,
   X
 } from 'lucide-react';
 
-// Custom React Flow Node Component for AetherOps Agents
+// Custom Warm Industrial Node Component
 const CustomAgentNode = ({ data }) => {
   const getStatusStyle = () => {
     switch (data.status) {
       case 'running':
-        return 'border-cyan-500 bg-cyan-950/40 text-cyan-300 shadow-[0_0_20px_rgba(6,182,212,0.4)] animate-pulse';
+        return 'border-amber-500 bg-amber-950/30 text-amber-200 shadow-[0_0_20px_rgba(245,158,11,0.3)] animate-pulse';
       case 'self_healing':
-        return 'border-amber-500 bg-amber-950/40 text-amber-300 shadow-[0_0_20px_rgba(245,158,11,0.4)] animate-pulse';
+        return 'border-orange-500 bg-orange-950/40 text-orange-300 shadow-[0_0_20px_rgba(234,88,12,0.4)] animate-pulse';
       case 'completed':
-        return 'border-emerald-500/80 bg-emerald-950/30 text-emerald-300';
+        return 'border-emerald-500/80 bg-emerald-950/20 text-emerald-300';
       case 'hitl_paused':
-        return 'border-purple-500 bg-purple-950/40 text-purple-300';
+        return 'border-purple-500 bg-purple-950/30 text-purple-300';
       case 'failed':
-        return 'border-red-500 bg-red-950/40 text-red-300';
+        return 'border-red-500 bg-red-950/30 text-red-300';
       default:
-        return 'border-slate-800 bg-slate-900/90 text-slate-400';
+        return 'border-[#2D3342] bg-[#1C1F28] text-gray-400';
     }
   };
 
@@ -60,25 +58,25 @@ const CustomAgentNode = ({ data }) => {
     switch (data.status) {
       case 'running':
         return (
-          <span className="flex items-center gap-1 text-[10px] bg-cyan-500/20 text-cyan-300 px-2 py-0.5 rounded font-semibold">
+          <span className="flex items-center gap-1 text-[10px] bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded font-semibold border border-amber-500/30">
             <Loader2 className="w-3 h-3 animate-spin" /> RUNNING
           </span>
         );
       case 'self_healing':
         return (
-          <span className="flex items-center gap-1 text-[10px] bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded font-semibold">
-            <AlertTriangle className="w-3 h-3 animate-bounce" /> SELF-HEALING
+          <span className="flex items-center gap-1 text-[10px] bg-orange-500/20 text-orange-300 px-2 py-0.5 rounded font-semibold border border-orange-500/30">
+            <AlertTriangle className="w-3 h-3 animate-bounce" /> HEALING
           </span>
         );
       case 'completed':
         return (
-          <span className="flex items-center gap-1 text-[10px] bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded font-semibold">
-            <CheckCircle2 className="w-3 h-3" /> COMPLETED
+          <span className="flex items-center gap-1 text-[10px] bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded font-semibold border border-emerald-500/30">
+            <CheckCircle2 className="w-3 h-3" /> DONE
           </span>
         );
       default:
         return (
-          <span className="flex items-center gap-1 text-[10px] bg-slate-800 text-slate-400 px-2 py-0.5 rounded font-semibold">
+          <span className="flex items-center gap-1 text-[10px] bg-[#272B36] text-gray-400 px-2 py-0.5 rounded font-semibold border border-[#2D3342]">
             <Clock className="w-3 h-3" /> PENDING
           </span>
         );
@@ -86,33 +84,33 @@ const CustomAgentNode = ({ data }) => {
   };
 
   return (
-    <div className={`w-64 p-3.5 rounded-xl border-2 transition-all duration-300 ${getStatusStyle()}`}>
-      <Handle type="target" position={Position.Top} className="!bg-cyan-500 !w-3 !h-3" />
+    <div className={`w-64 p-3.5 rounded-xl border-2 transition-all duration-300 shadow-lg ${getStatusStyle()}`}>
+      <Handle type="target" position={Position.Top} className="!bg-amber-500 !w-3 !h-3" />
       
       <div className="flex items-center justify-between mb-2">
-        <span className="text-xs font-mono font-bold uppercase tracking-wider text-slate-300">
+        <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-gray-300">
           {data.agent_type}
         </span>
         {getStatusBadge()}
       </div>
 
       <div className="text-sm font-semibold text-white mb-1 flex items-center gap-1.5">
-        <Sparkles className="w-4 h-4 text-cyan-400 shrink-0" />
+        <Sparkles className="w-4 h-4 text-amber-400 shrink-0" />
         <span className="truncate">{data.label}</span>
       </div>
 
-      <p className="text-[11px] text-slate-400 line-clamp-2 leading-relaxed">
+      <p className="text-[11px] text-gray-400 line-clamp-2 leading-relaxed">
         {data.description}
       </p>
 
       {data.latency_ms > 0 && (
-        <div className="mt-2.5 pt-2 border-t border-slate-800/60 flex items-center justify-between text-[10px] text-slate-500 font-mono">
+        <div className="mt-2.5 pt-2 border-t border-[#2D3342] flex items-center justify-between text-[10px] text-gray-400 font-mono">
           <span>Latency: {data.latency_ms}ms</span>
           <span>{data.token_usage || 0} tokens</span>
         </div>
       )}
 
-      <Handle type="source" position={Position.Bottom} className="!bg-cyan-500 !w-3 !h-3" />
+      <Handle type="source" position={Position.Bottom} className="!bg-amber-500 !w-3 !h-3" />
     </div>
   );
 };
@@ -151,7 +149,7 @@ export default function Dashboard1_DagCanvas() {
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
 
-  // Map task items and backend state into React Flow graph
+  // Map task items into React Flow graph layout
   const updateReactFlowGraph = useCallback((graphState, currentTaskList = taskList) => {
     const listToRender = graphState?.nodes || currentTaskList.map(t => ({
       id: t.id,
@@ -165,7 +163,7 @@ export default function Dashboard1_DagCanvas() {
     const flowNodes = listToRender.map((item, idx) => ({
       id: item.id,
       type: 'agentNode',
-      position: { x: 250, y: 30 + idx * 150 },
+      position: { x: 250, y: 30 + idx * 160 },
       data: { ...item },
     }));
 
@@ -176,8 +174,8 @@ export default function Dashboard1_DagCanvas() {
         source: listToRender[i].id,
         target: listToRender[i + 1].id,
         animated: listToRender[i].status === 'running',
-        style: { stroke: '#38BDF8', strokeWidth: 2.5 },
-        markerEnd: { type: MarkerType.ArrowClosed, color: '#38BDF8' }
+        style: { stroke: '#F59E0B', strokeWidth: 2.5 },
+        markerEnd: { type: MarkerType.ArrowClosed, color: '#F59E0B' }
       });
     }
 
@@ -319,7 +317,7 @@ export default function Dashboard1_DagCanvas() {
     setIsExecuting(false);
   };
 
-  // Task Manager Actions: Add Subtask
+  // Add Task
   const handleAddTask = () => {
     if (!newTaskLabel.trim()) return;
     const newId = `node-custom-${Date.now()}`;
@@ -337,14 +335,14 @@ export default function Dashboard1_DagCanvas() {
     updateReactFlowGraph(dagState, updated);
   };
 
-  // Task Manager Actions: Delete Subtask
+  // Delete Task
   const handleDeleteTask = (taskIdToDelete) => {
     const updated = taskList.filter(t => t.id !== taskIdToDelete);
     setTaskList(updated);
     updateReactFlowGraph(dagState, updated);
   };
 
-  // Task Manager Actions: Toggle Task Status
+  // Toggle Task Status
   const handleToggleTaskStatus = (targetId) => {
     const nextStatusMap = {
       'pending': 'running',
@@ -423,14 +421,14 @@ export default function Dashboard1_DagCanvas() {
   };
 
   return (
-    <div className="flex flex-col h-[calc(100vh-4rem)] bg-[#090D16] text-slate-100 overflow-hidden font-sans">
+    <div className="flex flex-col h-[calc(100vh-4rem)] bg-[#14161D] text-gray-100 overflow-hidden font-sans">
       
-      {/* Top Toolbar Navigation Bar */}
-      <div className="p-3.5 bg-[#0F172A]/90 border-b border-slate-800 flex flex-wrap items-center justify-between gap-3 shadow-md z-20">
+      {/* Top Toolbar Navigation Bar - Warm Industrial */}
+      <div className="p-3.5 bg-[#1C1F28] border-b border-[#2D3342] flex flex-wrap items-center justify-between gap-3 shadow-md z-20">
         
         {/* Goal Ingestion Input */}
         <div className="flex items-center gap-2 flex-1 min-w-[320px]">
-          <div className="p-2 bg-cyan-500/10 text-cyan-400 rounded-lg border border-cyan-500/20">
+          <div className="p-2 bg-amber-500/10 text-amber-400 rounded-lg border border-amber-500/20">
             <Sparkles className="w-4 h-4" />
           </div>
           <input
@@ -438,12 +436,12 @@ export default function Dashboard1_DagCanvas() {
             value={userGoal}
             onChange={(e) => setUserGoal(e.target.value)}
             placeholder="Enter goal instruction prompt..."
-            className="flex-1 bg-slate-950 border border-slate-800 rounded-lg px-3.5 py-1.5 text-xs text-white focus:outline-none focus:border-cyan-500 font-sans"
+            className="flex-1 bg-[#14161D] border border-[#2D3342] rounded-lg px-3.5 py-1.5 text-xs text-white focus:outline-none focus:border-amber-500 font-sans"
           />
           <button
             onClick={handleCreateDag}
             disabled={isExecuting}
-            className="px-3.5 py-1.5 bg-cyan-600 hover:bg-cyan-500 text-white font-semibold text-xs rounded-lg transition shadow-md flex items-center gap-1.5 shrink-0"
+            className="px-3.5 py-1.5 bg-amber-600 hover:bg-amber-500 text-white font-semibold text-xs rounded-lg transition shadow-md flex items-center gap-1.5 shrink-0"
           >
             {isExecuting ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Sparkles className="w-3.5 h-3.5" />}
             <span>Decompose & Generate DAG</span>
@@ -458,10 +456,10 @@ export default function Dashboard1_DagCanvas() {
             onClick={() => setShowTaskManager(!showTaskManager)}
             className={`px-3 py-1.5 text-xs font-semibold rounded-lg border flex items-center gap-1.5 transition ${
               showTaskManager 
-                ? 'bg-cyan-500/20 text-cyan-300 border-cyan-500/40' 
-                : 'bg-slate-900 text-slate-400 border-slate-800 hover:text-white'
+                ? 'bg-amber-500/20 text-amber-300 border-amber-500/40' 
+                : 'bg-[#14161D] text-gray-400 border-[#2D3342] hover:text-white'
             }`}
-            title="Toggle Mini Task Manager Panel"
+            title="Toggle Task Manager Panel"
           >
             <ListTodo className="w-3.5 h-3.5" />
             <span>Task Manager ({taskList.length})</span>
@@ -470,9 +468,9 @@ export default function Dashboard1_DagCanvas() {
           <button
             onClick={handleStepNode}
             disabled={!taskId || isExecuting}
-            className="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 disabled:opacity-40 text-slate-200 text-xs font-semibold rounded-lg border border-slate-700 flex items-center gap-1.5 transition"
+            className="px-3 py-1.5 bg-[#272B36] hover:bg-[#323745] disabled:opacity-40 text-gray-200 text-xs font-semibold rounded-lg border border-[#2D3342] flex items-center gap-1.5 transition"
           >
-            <Play className="w-3.5 h-3.5 text-cyan-400" />
+            <Play className="w-3.5 h-3.5 text-amber-400" />
             <span>Step</span>
           </button>
 
@@ -488,15 +486,15 @@ export default function Dashboard1_DagCanvas() {
           <button
             onClick={handleTriggerSelfHealingDemo}
             disabled={isSelfHealingDemo}
-            className="px-3 py-1.5 bg-amber-500/20 hover:bg-amber-500/30 disabled:opacity-40 text-amber-300 border border-amber-500/30 text-xs font-semibold rounded-lg flex items-center gap-1.5 transition"
+            className="px-3 py-1.5 bg-orange-500/20 hover:bg-orange-500/30 disabled:opacity-40 text-orange-300 border border-orange-500/30 text-xs font-semibold rounded-lg flex items-center gap-1.5 transition"
           >
-            <Bug className="w-3.5 h-3.5 text-amber-400" />
+            <Bug className="w-3.5 h-3.5 text-orange-400" />
             <span>Self-Healing Demo</span>
           </button>
 
           <button
             onClick={handleResetCanvas}
-            className="p-1.5 bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-white rounded-lg border border-slate-800 transition"
+            className="p-1.5 bg-[#14161D] hover:bg-[#272B36] text-gray-400 hover:text-white rounded-lg border border-[#2D3342] transition"
             title="Reset Canvas"
           >
             <RotateCcw className="w-3.5 h-3.5" />
@@ -508,8 +506,8 @@ export default function Dashboard1_DagCanvas() {
       {/* Main Content Workspace */}
       <div className="flex-1 flex overflow-hidden relative">
         
-        {/* Left Side: React Flow Canvas */}
-        <div className="flex-1 relative bg-[#090D16]">
+        {/* Left Side: React Flow Canvas with Mouse Scrolling & Panning Enabled */}
+        <div className="flex-1 relative bg-[#14161D]">
           <ReactFlow
             nodes={nodes}
             edges={edges}
@@ -517,63 +515,68 @@ export default function Dashboard1_DagCanvas() {
             onEdgesChange={onEdgesChange}
             onNodeClick={onNodeClick}
             nodeTypes={nodeTypes}
+            panOnScroll={true}
+            panOnDrag={true}
+            zoomOnScroll={false}
+            zoomOnPinch={true}
+            zoomOnDoubleClick={true}
             fitView
             className="w-full h-full"
           >
-            <Background color="#1E293B" gap={24} size={1} />
-            <Controls className="!bg-slate-900 !border-slate-800" />
+            <Background color="#272B36" gap={24} size={1} />
+            <Controls className="!bg-[#1C1F28] !border-[#2D3342]" />
             <MiniMap 
-              nodeColor={(n) => n.data?.status === 'completed' ? '#10B981' : n.data?.status === 'running' ? '#06B6D4' : '#334155'}
-              maskColor="rgba(9, 13, 22, 0.7)"
-              className="!bg-slate-900 !border-slate-800"
+              nodeColor={(n) => n.data?.status === 'completed' ? '#10B981' : n.data?.status === 'running' ? '#F59E0B' : '#374151'}
+              maskColor="rgba(20, 22, 29, 0.7)"
+              className="!bg-[#1C1F28] !border-[#2D3342]"
             />
           </ReactFlow>
 
           {/* Floating Metrics Status Bar */}
           {dagState && (
-            <div className="absolute bottom-4 left-4 z-10 bg-slate-900/90 backdrop-blur border border-slate-800 rounded-lg p-2.5 text-xs flex items-center gap-4 text-slate-300 shadow-xl font-mono">
+            <div className="absolute bottom-4 left-4 z-10 bg-[#1C1F28]/90 backdrop-blur border border-[#2D3342] rounded-lg p-2.5 text-xs flex items-center gap-4 text-gray-300 shadow-xl font-mono">
               <span className="flex items-center gap-1.5">
-                <span className="w-2 h-2 rounded-full bg-cyan-400 animate-ping" />
+                <span className="w-2 h-2 rounded-full bg-amber-400 animate-ping" />
                 Task: <strong className="text-white">{dagState.task_id}</strong>
               </span>
-              <span>Tokens: <strong className="text-cyan-400">{dagState.total_tokens}</strong></span>
+              <span>Tokens: <strong className="text-amber-400">{dagState.total_tokens}</strong></span>
               <span>Cost: <strong className="text-emerald-400">${dagState.total_cost}</strong></span>
             </div>
           )}
         </div>
 
-        {/* EMBEDDED MINI TASK MANAGER DRAWER/PANEL */}
+        {/* EMBEDDED MINI TASK MANAGER DRAWER/PANEL WITH SCROLLBAR */}
         {showTaskManager && (
-          <div className="w-80 bg-[#0F172A]/95 border-r border-slate-800 flex flex-col h-full shadow-2xl z-10 backdrop-blur-md">
+          <div className="w-80 bg-[#1C1F28]/95 border-r border-[#2D3342] flex flex-col h-full shadow-2xl z-10 backdrop-blur-md">
             
             {/* Header */}
-            <div className="p-3 border-b border-slate-800 flex items-center justify-between bg-slate-950/60">
+            <div className="p-3 border-b border-[#2D3342] flex items-center justify-between bg-[#14161D]/80">
               <div className="flex items-center space-x-2">
-                <ListTodo className="w-4 h-4 text-cyan-400" />
-                <h3 className="text-xs font-bold text-white uppercase tracking-wider">Mini Task Manager</h3>
+                <ListTodo className="w-4 h-4 text-amber-400" />
+                <h3 className="text-xs font-bold text-white uppercase tracking-wider font-mono">Task Manager</h3>
               </div>
               <button 
                 onClick={() => setShowTaskManager(false)}
-                className="text-slate-400 hover:text-white p-1 rounded hover:bg-slate-800"
+                className="text-gray-400 hover:text-white p-1 rounded hover:bg-[#272B36]"
               >
                 <X className="w-3.5 h-3.5" />
               </button>
             </div>
 
             {/* Add Task Input Form */}
-            <div className="p-3 border-b border-slate-800/80 bg-slate-900/40 space-y-2">
+            <div className="p-3 border-b border-[#2D3342] bg-[#14161D]/40 space-y-2">
               <input
                 type="text"
                 value={newTaskLabel}
                 onChange={(e) => setNewTaskLabel(e.target.value)}
                 placeholder="Add subtask description..."
-                className="w-full bg-slate-950 border border-slate-800 rounded-md px-3 py-1.5 text-xs text-white focus:outline-none focus:border-cyan-500"
+                className="w-full bg-[#14161D] border border-[#2D3342] rounded-md px-3 py-1.5 text-xs text-white focus:outline-none focus:border-amber-500"
               />
               <div className="flex items-center gap-2">
                 <select
                   value={newTaskAgent}
                   onChange={(e) => setNewTaskAgent(e.target.value)}
-                  className="flex-1 bg-slate-950 border border-slate-800 rounded-md px-2 py-1 text-[11px] text-slate-300 focus:outline-none"
+                  className="flex-1 bg-[#14161D] border border-[#2D3342] rounded-md px-2 py-1 text-[11px] text-gray-300 focus:outline-none"
                 >
                   <option value="Supervisor Agent">Supervisor Agent</option>
                   <option value="Coder Agent">Coder Agent</option>
@@ -583,7 +586,7 @@ export default function Dashboard1_DagCanvas() {
                 </select>
                 <button
                   onClick={handleAddTask}
-                  className="px-2.5 py-1 bg-cyan-600 hover:bg-cyan-500 text-white text-xs font-semibold rounded-md flex items-center gap-1 transition shrink-0"
+                  className="px-2.5 py-1 bg-amber-600 hover:bg-amber-500 text-white text-xs font-semibold rounded-md flex items-center gap-1 transition shrink-0"
                 >
                   <Plus className="w-3.5 h-3.5" />
                   <span>Add</span>
@@ -591,52 +594,50 @@ export default function Dashboard1_DagCanvas() {
               </div>
             </div>
 
-            {/* Task Item List with Status Marks & Delete */}
-            <div className="flex-1 p-3 overflow-y-auto space-y-2">
+            {/* Task Item List with Scrollbar */}
+            <div className="flex-1 p-3 overflow-y-auto space-y-2 custom-scrollbar">
               {taskList.map((task) => (
                 <div 
                   key={task.id}
-                  className="p-2.5 bg-slate-900/80 border border-slate-800 rounded-lg flex items-start justify-between gap-2 hover:border-slate-700 transition"
+                  className="p-2.5 bg-[#14161D]/80 border border-[#2D3342] rounded-lg flex items-start justify-between gap-2 hover:border-[#3B4254] transition"
                 >
                   <div className="space-y-1 flex-1 min-w-0">
                     <div className="flex items-center gap-2">
-                      {/* Clickable Status Badge */}
                       <button
                         onClick={() => handleToggleTaskStatus(task.id)}
                         className="cursor-pointer hover:opacity-80 transition"
-                        title="Click to toggle status (Pending -> Running -> Completed)"
+                        title="Click to toggle status (Pending -> Active -> Done)"
                       >
                         {task.status === 'completed' && (
-                          <span className="text-[10px] bg-emerald-500/20 text-emerald-300 px-1.5 py-0.5 rounded font-semibold flex items-center gap-1">
+                          <span className="text-[10px] bg-emerald-500/20 text-emerald-300 px-1.5 py-0.5 rounded font-semibold flex items-center gap-1 border border-emerald-500/30">
                             <CheckCircle2 className="w-3 h-3" /> Done
                           </span>
                         )}
                         {task.status === 'running' && (
-                          <span className="text-[10px] bg-cyan-500/20 text-cyan-300 px-1.5 py-0.5 rounded font-semibold flex items-center gap-1">
+                          <span className="text-[10px] bg-amber-500/20 text-amber-300 px-1.5 py-0.5 rounded font-semibold flex items-center gap-1 border border-amber-500/30">
                             <Loader2 className="w-3 h-3 animate-spin" /> Active
                           </span>
                         )}
                         {task.status === 'self_healing' && (
-                          <span className="text-[10px] bg-amber-500/20 text-amber-300 px-1.5 py-0.5 rounded font-semibold flex items-center gap-1">
+                          <span className="text-[10px] bg-orange-500/20 text-orange-300 px-1.5 py-0.5 rounded font-semibold flex items-center gap-1 border border-orange-500/30">
                             <AlertTriangle className="w-3 h-3" /> Healing
                           </span>
                         )}
                         {task.status === 'pending' && (
-                          <span className="text-[10px] bg-slate-800 text-slate-400 px-1.5 py-0.5 rounded font-semibold flex items-center gap-1">
+                          <span className="text-[10px] bg-[#272B36] text-gray-400 px-1.5 py-0.5 rounded font-semibold flex items-center gap-1 border border-[#2D3342]">
                             <Clock className="w-3 h-3" /> Pending
                           </span>
                         )}
                       </button>
-                      <span className="text-[10px] text-slate-400 font-mono truncate">{task.agent}</span>
+                      <span className="text-[10px] text-gray-400 font-mono truncate">{task.agent}</span>
                     </div>
 
                     <p className="text-xs font-medium text-white truncate">{task.label}</p>
                   </div>
 
-                  {/* Delete Task Button */}
                   <button
                     onClick={() => handleDeleteTask(task.id)}
-                    className="p-1 text-slate-500 hover:text-red-400 hover:bg-slate-800 rounded transition shrink-0"
+                    className="p-1 text-gray-500 hover:text-red-400 hover:bg-[#272B36] rounded transition shrink-0"
                     title="Delete subtask"
                   >
                     <Trash2 className="w-3.5 h-3.5" />
@@ -645,24 +646,24 @@ export default function Dashboard1_DagCanvas() {
               ))}
             </div>
 
-            {/* Task Manager Footer Summary */}
-            <div className="p-2.5 border-t border-slate-800 bg-slate-950 text-[11px] text-slate-400 flex items-center justify-between font-mono">
+            {/* Footer Summary */}
+            <div className="p-2.5 border-t border-[#2D3342] bg-[#14161D] text-[11px] text-gray-400 flex items-center justify-between font-mono">
               <span>Total: {taskList.length}</span>
               <span className="text-emerald-400">Done: {taskList.filter(t => t.status === 'completed').length}</span>
-              <span className="text-slate-400">Pending: {taskList.filter(t => t.status === 'pending').length}</span>
+              <span className="text-gray-400">Pending: {taskList.filter(t => t.status === 'pending').length}</span>
             </div>
 
           </div>
         )}
 
-        {/* Right Side: Output Viewer & Inspector Panel */}
-        <div className="w-88 bg-[#0F172A] border-l border-slate-800 flex flex-col h-full overflow-hidden">
+        {/* Right Side: Output Viewer & Inspector Panel WITH SCROLLBAR */}
+        <div className="w-88 bg-[#1C1F28] border-l border-[#2D3342] flex flex-col h-full overflow-hidden">
           
           {/* Panel Tab Header */}
-          <div className="flex items-center border-b border-slate-800 bg-slate-950/60 p-2 gap-1 text-xs">
+          <div className="flex items-center border-b border-[#2D3342] bg-[#14161D]/80 p-2 gap-1 text-xs">
             <button
               onClick={() => setActiveArtifactTab('code')}
-              className={`flex-1 py-1.5 px-2 rounded-md font-semibold flex items-center justify-center gap-1.5 transition ${activeArtifactTab === 'code' ? 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/30' : 'text-slate-400 hover:text-slate-200'}`}
+              className={`flex-1 py-1.5 px-2 rounded-md font-semibold flex items-center justify-center gap-1.5 transition ${activeArtifactTab === 'code' ? 'bg-amber-500/10 text-amber-400 border border-amber-500/30' : 'text-gray-400 hover:text-gray-200'}`}
             >
               <Code2 className="w-3.5 h-3.5" />
               <span>Code</span>
@@ -670,7 +671,7 @@ export default function Dashboard1_DagCanvas() {
 
             <button
               onClick={() => setActiveArtifactTab('logs')}
-              className={`flex-1 py-1.5 px-2 rounded-md font-semibold flex items-center justify-center gap-1.5 transition ${activeArtifactTab === 'logs' ? 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/30' : 'text-slate-400 hover:text-slate-200'}`}
+              className={`flex-1 py-1.5 px-2 rounded-md font-semibold flex items-center justify-center gap-1.5 transition ${activeArtifactTab === 'logs' ? 'bg-amber-500/10 text-amber-400 border border-amber-500/30' : 'text-gray-400 hover:text-gray-200'}`}
             >
               <Terminal className="w-3.5 h-3.5" />
               <span>Logs</span>
@@ -678,40 +679,40 @@ export default function Dashboard1_DagCanvas() {
 
             <button
               onClick={() => setActiveArtifactTab('inspector')}
-              className={`flex-1 py-1.5 px-2 rounded-md font-semibold flex items-center justify-center gap-1.5 transition ${activeArtifactTab === 'inspector' ? 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/30' : 'text-slate-400 hover:text-slate-200'}`}
+              className={`flex-1 py-1.5 px-2 rounded-md font-semibold flex items-center justify-center gap-1.5 transition ${activeArtifactTab === 'inspector' ? 'bg-amber-500/10 text-amber-400 border border-amber-500/30' : 'text-gray-400 hover:text-gray-200'}`}
             >
               <Info className="w-3.5 h-3.5" />
               <span>Inspector</span>
             </button>
           </div>
 
-          {/* Panel Content */}
-          <div className="flex-1 p-3.5 overflow-y-auto font-mono text-xs">
+          {/* Panel Content with Custom Visible Scrollbar */}
+          <div className="flex-1 p-3.5 overflow-y-auto font-mono text-xs custom-scrollbar">
             
             {/* Tab 1: Code Viewer */}
             {activeArtifactTab === 'code' && (
               <div className="space-y-3">
-                <div className="flex items-center justify-between text-slate-400">
+                <div className="flex items-center justify-between text-gray-400">
                   <span className="font-semibold text-white">Synthesized Python Script</span>
                   
                   <div className="flex items-center gap-1.5">
                     <button
                       onClick={() => setIsEditingCode(!isEditingCode)}
-                      className="p-1 hover:bg-slate-800 text-slate-400 hover:text-white rounded"
+                      className="p-1 hover:bg-[#272B36] text-gray-400 hover:text-white rounded"
                       title={isEditingCode ? "Lock Code" : "Edit Code"}
                     >
                       <Edit3 className="w-3.5 h-3.5" />
                     </button>
                     <button
                       onClick={handleCopyCode}
-                      className="p-1 hover:bg-slate-800 text-slate-400 hover:text-white rounded flex items-center gap-1 text-[10px]"
+                      className="p-1 hover:bg-[#272B36] text-gray-400 hover:text-white rounded flex items-center gap-1 text-[10px]"
                       title="Copy code"
                     >
                       {isCopied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
                     </button>
                     <button
                       onClick={handleDownloadCode}
-                      className="p-1 hover:bg-slate-800 text-slate-400 hover:text-white rounded"
+                      className="p-1 hover:bg-[#272B36] text-gray-400 hover:text-white rounded"
                       title="Download script .py"
                     >
                       <Download className="w-3.5 h-3.5" />
@@ -723,10 +724,10 @@ export default function Dashboard1_DagCanvas() {
                   <textarea
                     value={customCode}
                     onChange={(e) => setCustomCode(e.target.value)}
-                    className="w-full h-80 p-3 bg-slate-950 border border-cyan-500/50 rounded-lg text-cyan-300 font-mono text-xs focus:outline-none"
+                    className="w-full h-80 p-3 bg-[#14161D] border border-amber-500/50 rounded-lg text-amber-300 font-mono text-xs focus:outline-none"
                   />
                 ) : (
-                  <pre className="p-3 bg-slate-950 border border-slate-800 rounded-lg text-cyan-300 overflow-x-auto leading-relaxed">
+                  <pre className="p-3 bg-[#14161D] border border-[#2D3342] rounded-lg text-amber-300 overflow-x-auto leading-relaxed">
                     {customCode || (dagState?.artifacts?.find(a => a.type === 'code')?.content) || '# No synthesized code artifact yet.'}
                   </pre>
                 )}
@@ -736,18 +737,18 @@ export default function Dashboard1_DagCanvas() {
             {/* Tab 2: Logs Viewer */}
             {activeArtifactTab === 'logs' && (
               <div className="space-y-3">
-                <div className="flex items-center justify-between text-slate-400">
+                <div className="flex items-center justify-between text-gray-400">
                   <span className="font-semibold text-white">Execution Stream Logs</span>
-                  <span className="text-[10px] text-cyan-400">Live WebSockets</span>
+                  <span className="text-[10px] text-amber-400">Live WebSockets</span>
                 </div>
 
-                <div className="p-3 bg-slate-950 border border-slate-800 rounded-lg space-y-2 text-slate-300 max-h-[500px] overflow-y-auto">
+                <div className="p-3 bg-[#14161D] border border-[#2D3342] rounded-lg space-y-2 text-gray-300 max-h-[500px] overflow-y-auto">
                   {dagState?.execution_logs?.length ? (
                     dagState.execution_logs.map((log, idx) => (
-                      <p key={idx} className="text-slate-400 border-b border-slate-900 pb-1">{log}</p>
+                      <p key={idx} className="text-gray-400 border-b border-[#272B36] pb-1">{log}</p>
                     ))
                   ) : (
-                    <p className="text-slate-600 italic">No logs recorded yet.</p>
+                    <p className="text-gray-600 italic">No logs recorded yet.</p>
                   )}
                 </div>
               </div>
@@ -759,37 +760,37 @@ export default function Dashboard1_DagCanvas() {
                 <h4 className="font-bold text-white text-sm">Node Details Inspector</h4>
                 
                 {selectedNode ? (
-                  <div className="bg-slate-950 border border-slate-800 rounded-lg p-3 space-y-2">
+                  <div className="bg-[#14161D] border border-[#2D3342] rounded-lg p-3 space-y-2">
                     <div>
-                      <span className="text-slate-500">Label:</span> <strong className="text-white">{selectedNode.label}</strong>
+                      <span className="text-gray-500">Label:</span> <strong className="text-white">{selectedNode.label}</strong>
                     </div>
                     <div>
-                      <span className="text-slate-500">Agent:</span> <span className="text-cyan-400">{selectedNode.agent_type}</span>
+                      <span className="text-gray-500">Agent:</span> <span className="text-amber-400">{selectedNode.agent_type}</span>
                     </div>
                     <div>
-                      <span className="text-slate-500">Status:</span> <span className="uppercase text-amber-400 font-bold">{selectedNode.status}</span>
+                      <span className="text-gray-500">Status:</span> <span className="uppercase text-amber-400 font-bold">{selectedNode.status}</span>
                     </div>
                     <div>
-                      <span className="text-slate-500">Description:</span>
-                      <p className="text-slate-400 text-[11px] mt-1">{selectedNode.description}</p>
+                      <span className="text-gray-500">Description:</span>
+                      <p className="text-gray-400 text-[11px] mt-1">{selectedNode.description}</p>
                     </div>
 
                     {selectedNode.stdout && (
-                      <div className="mt-2 pt-2 border-t border-slate-800">
+                      <div className="mt-2 pt-2 border-t border-[#2D3342]">
                         <span className="text-emerald-400">STDOUT:</span>
-                        <pre className="p-2 bg-black rounded text-[10px] text-slate-300 mt-1 whitespace-pre-wrap">{selectedNode.stdout}</pre>
+                        <pre className="p-2 bg-black rounded text-[10px] text-gray-300 mt-1 whitespace-pre-wrap">{selectedNode.stdout}</pre>
                       </div>
                     )}
 
                     {selectedNode.stderr && (
-                      <div className="mt-2 pt-2 border-t border-slate-800">
+                      <div className="mt-2 pt-2 border-t border-[#2D3342]">
                         <span className="text-red-400">STDERR:</span>
                         <pre className="p-2 bg-black rounded text-[10px] text-red-300 mt-1 whitespace-pre-wrap">{selectedNode.stderr}</pre>
                       </div>
                     )}
                   </div>
                 ) : (
-                  <div className="p-8 text-center text-slate-500">
+                  <div className="p-8 text-center text-gray-500">
                     <Info className="w-8 h-8 mx-auto mb-2 opacity-40" />
                     <p>Click any node on the graph canvas to inspect runtime stdout/stderr logs.</p>
                   </div>

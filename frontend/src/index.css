@@ -4,15 +4,15 @@
 
 @layer base {
   body {
-    background-color: #0B0F19;
+    background-color: #14161D;
     color: #F3F4F6;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
   }
 }
 
-/* React Flow custom styling overrides */
+/* React Flow Warm Industrial styling overrides */
 .react-flow__renderer {
-  background-color: #0B0F19 !important;
+  background-color: #14161D !important;
 }
 
 .react-flow__edge-path {
@@ -20,57 +20,50 @@
 }
 
 .react-flow__controls {
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
-  border-radius: 8px;
-  background: #111827 !important;
-  border: 1px solid #1F2937 !important;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.6);
+  border-radius: 10px;
+  background: #1C1F28 !important;
+  border: 1px solid #2D3342 !important;
 }
 
 .react-flow__controls-button {
-  background: #111827 !important;
-  border-bottom: 1px solid #1F2937 !important;
-  fill: #9CA3AF !important;
+  background: #1C1F28 !important;
+  border-bottom: 1px solid #2D3342 !important;
+  fill: #A1A1AA !important;
 }
 
 .react-flow__controls-button:hover {
-  background: #1F2937 !important;
-  fill: #38BDF8 !important;
+  background: #272B36 !important;
+  fill: #F59E0B !important;
 }
 
-/* Node pulse keyframes */
-@keyframes pulse-glow-blue {
-  0%, 100% { box-shadow: 0 0 15px rgba(59, 130, 246, 0.4); }
-  50% { box-shadow: 0 0 25px rgba(59, 130, 246, 0.8); }
-}
-
-@keyframes pulse-glow-amber {
-  0%, 100% { box-shadow: 0 0 15px rgba(245, 158, 11, 0.4); }
-  50% { box-shadow: 0 0 25px rgba(245, 158, 11, 0.8); }
-}
-
-.node-running {
-  animation: pulse-glow-blue 2s infinite ease-in-out;
-}
-
-.node-self-healing {
-  animation: pulse-glow-amber 1.5s infinite ease-in-out;
-}
-
-/* Custom scrollbars */
+/* Custom Visible Scrollbars for all Panels & Lists */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 8px;
+  height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #0B0F19;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #1F2937;
+  background: #14161D;
   border-radius: 4px;
 }
 
+::-webkit-scrollbar-thumb {
+  background: #2D3342;
+  border-radius: 4px;
+  border: 2px solid #14161D;
+}
+
 ::-webkit-scrollbar-thumb:hover {
-  background: #374151;
+  background: #F59E0B;
+}
+
+/* Node Glow Animations */
+@keyframes pulse-warm-amber {
+  0%, 100% { box-shadow: 0 0 15px rgba(245, 158, 11, 0.3); }
+  50% { box-shadow: 0 0 25px rgba(245, 158, 11, 0.7); }
+}
+
+.node-running-warm {
+  animation: pulse-warm-amber 1.8s infinite ease-in-out;
 }
