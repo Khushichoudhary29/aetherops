@@ -1,5 +1,9 @@
 import os
 from pydantic import BaseModel
+from dotenv import load_dotenv
+
+# Load .env file automatically if present
+load_dotenv()
 
 class Settings(BaseModel):
     PROJECT_NAME: str = "AetherOps Control Center"
