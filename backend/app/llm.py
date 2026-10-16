@@ -38,8 +38,18 @@ def generate_code_with_llm(user_goal: str) -> Dict[str, Any]:
     if api_key and GEMINI_AVAILABLE:
         try:
             genai.configure(api_key=api_key)
-            # Use lightweight, high-speed flash model
-            model = genai.GenerativeModel("gemini-1.5-flash")
+            
+            # Try available flash models
+            model = None
+            for model_name in ["gemini-1.5-flash-latest", "gemini-1.5-flash", "gemini-pro"]:
+                try:
+                    model = genai.GenerativeModel(model_name)
+                    break
+                except Exception:
+                    continue
+
+            if not model:
+                model = genai.GenerativeModel("gemini-1.5-flash")
 
             system_prompt = (
                 "You are AetherOps Coder Agent. Write concise, valid, self-contained Python 3 code "
