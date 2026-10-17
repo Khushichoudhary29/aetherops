@@ -17,64 +17,55 @@ Instead of generating simple text output through a single prompt, AetherOps deco
 
 ---
 
-## 👥 Team Work Distribution (Student Level)
+## 👥 Team Work Distribution
 
-| Team Member | Module Assigned | Work Status |
-| :--- | :--- | :--- |
-| **Member 1** | **Core Backend & Dashboard 1**: LangGraph state machine, Google Gemini LLM API, Subprocess Sandbox Runner, WebSockets hub, and Dashboard 1 (React Flow Canvas, Mini Task Manager, Code Editor & Viewer). | **Completed & Tested** |
-| **Member 2** | **Dashboard 2**: AgentOps Telemetry Station (Metrics for token burn rate, node latency graphs, error recovery rate, and terminal logs). | *Pending / Integration Slot Ready* |
-| **Member 3** | **Dashboard 3**: Security & HITL Terminal (Human approval buttons, security policy checks, restricted command blocking). | *Pending / Integration Slot Ready* |
-
-> 💡 **[Team Guide (Hinglish - For Internal Team Reference)]:**  
-> *(Note: Yeh section team coordination ke liye hai, final evaluation se pehle ise easily delete kar sakte hain)*  
-> - **Member 1 (Done):** Pura core backend, real Gemini LLM integration (`backend/app/llm.py`), isolated subprocess code sandbox, WebSockets, aur **Dashboard 1 (Interactive Canvas, Task Manager, Code Editor, Self-Healing Demo, Light/Dark theme)** complete aur test kar diya hai. Repo GitHub par ready hai.
-> - **Member 2 (Aapka Kaam):** Repo clone karke `frontend/src/components/Dashboard2_Placeholder.jsx` me token cost aur latency ke graphs (`Recharts`) lagane hain.
-> - **Member 3 (Aapka Kaam):** `frontend/src/components/Dashboard3_Placeholder.jsx` me security guardrail policies aur Human-in-the-Loop approval buttons (Approve/Reject) lagane hain.
+| Team Member | Module Assigned | Scope & Deliverables | Status |
+| :--- | :--- | :--- | :--- |
+| **Member 1** | **Core Backend & Dashboard 1** | Central LangGraph state machine, Google Gemini LLM API, Subprocess Sandbox Runner, WebSockets hub, React Flow DAG Canvas, Mini Task Manager, and Pipeline Report Export. | **Completed & Tested** |
+| **Member 2** | **Dashboard 2 (AgentOps Telemetry)** | Real-time observability dashboard tracking token burn rates, per-node execution latency graphs, error recovery analytics via `Recharts`, and terminal log streams via `xterm.js`. | *Integration Slot Ready* |
+| **Member 3** | **Dashboard 3 (Security & HITL)** | Human-in-the-Loop (HITL) approval gates, guardrail policy enforcement, dangerous command blocking (`rm -rf`, raw sockets), and manual prompt injection controls. | *Integration Slot Ready* |
 
 ---
 
-## 🛠️ Detailed Features Implemented by Member 1
+## 📋 Module Breakdown by Member
 
-Member 1 ne project ka foundational architecture aur complete Dashboard 1 tayyar kiya hai:
+### 1. Member 1: Core Architecture & Dashboard 1
+- **LangGraph Multi-Agent Engine**: 5-agent state graph (Supervisor, Coder, Auditor, Sandbox Runner, Reviewer).
+- **Subprocess Sandbox & Self-Healing**: Isolated script execution with stdout/stderr capture and auto-refactoring feedback loop.
+- **Google Gemini LLM Service**: Live code synthesis with safe offline fallback mode.
+- **Full-Duplex WebSockets**: Real-time event broadcasting to connected frontend dashboards.
+- **Dashboard 1 (DAG Canvas)**: Interactive React Flow graph, Mini Task Manager, code viewer/editor, and execution report export.
 
-1. **LangGraph State Graph Engine (`backend/app/graph/orchestrator.py`):**
-   - Natural language prompt ko 5 specialized agent nodes me todta hai:
-     - 🧠 **Supervisor Planner**: Prompt ko sub-tasks aur dependency graph me convert karta hai.
-     - 💻 **Coder Agent**: Executable Python code likhta hai (Google Gemini LLM ke through).
-     - 🛡️ **Security Auditor**: Code scan karta hai harmful commands ke liye.
-     - ⚙️ **Execution Sandbox Runner**: Isolated subprocess me code run karta hai.
-     - 🔍 **Reviewer Agent**: Final output aur task report verify karta hai.
+### 2. Member 2: AgentOps Telemetry Station (Dashboard 2)
+- **Token & Cost Analytics**: Interactive Recharts components displaying token consumption and cumulative API cost.
+- **Latency Monitoring**: Per-node execution duration metrics to identify pipeline bottlenecks.
+- **Live Terminal Stream**: Integration with `xterm.js` for streaming raw stdout/stderr logs.
+- **Error vs. Recovery Rates**: Statistical visualization of self-healing success frequency.
 
-2. **Subprocess Sandbox & Self-Healing Loop (`backend/app/sandbox/runner.py`):**
-   - Generated code ko background Python subprocess me run karta hai.
-   - Code ka `stdout`, `stderr`, execution latency (ms), aur exit code capture karta hai.
-   - **Self-Healing:** Agar non-zero exit code ya exception aaye, toh error traceback wapas Coder Agent ko jata hai aur code auto-fix hota hai.
+### 3. Member 3: Security & HITL Governance (Dashboard 3)
+- **Guardrail Policy Rules**: Regex and pattern-based interceptor for hazardous commands and unauthorized file access.
+- **HITL Approval Gate**: State machine pause/resume mechanism allowing human evaluators to Approve or Reject agent actions.
+- **Mid-Flight Prompt Injection**: Interface allowing operators to inject custom corrective prompts before execution continues.
+- **Security Audit Logs**: Persistent logging of all security scan decisions and human approvals.
 
-3. **Google Gemini LLM Integration (`backend/app/llm.py`):**
-   - Google Gemini API (`gemini-1.5-flash`) live code synthesis ke liye integrate kiya gaya hai.
-   - **Smart Fallback:** Agar API key na ho ya quota limit exceed ho, toh system local deterministic mode me switch ho jata hai taaki presentation ke time project kabhi crash na ho.
+---
 
-4. **Full-Duplex WebSockets (`backend/app/websocket_manager.py`):**
-   - `/ws/dag` endpoint ke zariye backend graph ke state mutations bina page reload kiye React frontend par instantly push hote hain.
+## 🤝 Internal Team Reference (Hinglish)
 
-5. **Dashboard 1: Dynamic DAG Canvas (`frontend/src/components/Dashboard1_DagCanvas.jsx`):**
-   - `@xyflow/react` (React Flow) par based interactive visual task graph.
-   - Node status indicators: **Pending**, **Running (Pulsing)**, **Self-Healing (Amber)**, **Completed (Emerald)**.
-   - Mouse wheel scroll aur pan navigation support.
+- **Member 1 (Done):**
+  - Pura backend engine (`FastAPI` + `LangGraph`), Gemini LLM service (`backend/app/llm.py`), isolated subprocess sandbox, aur WebSocket hub complete kar diya hai.
+  - Frontend me **Dashboard 1** fully ready hai jisme React Flow canvas, Mini Task Manager, Code Editor/Viewer, Pipeline Report Export, aur Light/Dark mode included hai.
+  - Ab repo GitHub par pushed hai aur ready hai agle members ke kaam ke liye.
 
-6. **Mini Task Manager Drawer:**
-   - Custom subtasks add karne, delete karne, aur unka status (Pending ➔ Active ➔ Done) direct toggle karne ke liye interactive widget. Graph ke saath live sync hota hai.
+- **Member 2 (Aapka Kaam):**
+  - Repo clone karein aur `frontend/src/components/Dashboard2_Placeholder.jsx` me kaam shuru karein.
+  - Backend se aane wale token counts aur node latency data ko `Recharts` library use karke Bar Chart aur Line Chart me show karein.
+  - Live execution logs ke liye `xterm.js` terminal view implement karein taaki terminal output live scroll ho sake.
 
-7. **Multimodal Output Panel (Right Side):**
-   - **Code Tab**: Synthesized code dekhne, live edit karne, one-click copy karne, aur `.py` script download karne ke options.
-   - **Logs Tab**: Real-time WebSocket terminal logs stream.
-   - **Inspector Tab**: Graph ke kisi bhi node par click karke uska STDOUT, STDERR, token usage aur latency inspect karne ki suvidha.
-
-8. **Theme & Execution Controls:**
-   - **Light / Dark Mode Switcher**: Header me Sun/Moon button se ek click me clean Light Mode ya Dark Mode switch hota hai.
-   - **Step Button**: Ek-ek node ko run karke dikhane ke liye (viva ke liye ideal).
-   - **Auto-Run**: Poore workflow ko ek click me start-to-end run karne ke liye.
-   - **Self-Healing Demo**: Runtime error inject karke self-healing loop demonstrate karne ke liye.
+- **Member 3 (Aapka Kaam):**
+  - Repo clone karein aur `frontend/src/components/Dashboard3_Placeholder.jsx` me kaam shuru karein.
+  - Security policies define karein (jaise prohibited keywords: `rm -rf`, `os.system`, restricted network access).
+  - Jab koi restricted call flag ho, toh execution pause ho jaye aur screen par Human-in-the-Loop modal aaye jisme **Approve**, **Reject**, aur **Inject Custom Prompt** ke buttons kaam karein.
 
 ---
 
@@ -122,13 +113,11 @@ Member 1 ne project ka foundational architecture aur complete Dashboard 1 tayyar
 
 ---
 
-## 📂 Project Directory Structure (For Faculty Presentation)
-
-Jab aap VS Code me project faculty ko dikhayengi, toh structure simple aur 2 parts me explainable hai:
+## 📂 Project Directory Structure
 
 ```text
 aetherops/
-├── backend/                       # BRAIN & EXECUTION ENGINE (Python 3.11 + FastAPI)
+├── backend/                       # Backend Engine (Python 3.11 + FastAPI)
 │   ├── app/
 │   │   ├── main.py                # Server entrypoint (REST APIs & WebSocket router)
 │   │   ├── llm.py                 # Google Gemini LLM service with fail-safe fallback
@@ -142,7 +131,7 @@ aetherops/
 │   ├── .env.example               # Template for Gemini API key configuration
 │   └── requirements.txt           # Python backend dependencies
 │
-├── frontend/                      # VISUAL CONTROL CENTER (React + Vite + TailwindCSS)
+├── frontend/                      # Frontend UI (React + Vite + TailwindCSS)
 │   ├── src/
 │   │   ├── App.jsx                # Main navigation shell & Light/Dark mode switcher
 │   │   ├── index.css              # Custom styling & scrollbar design
@@ -176,14 +165,14 @@ npm run dev
 ---
 
 ## 🔑 Environment Configuration (Optional)
-AetherOps me built-in fallback hai, isliye API key ke bina bhi project smooth chalta hai.
+AetherOps includes an automatic fail-safe fallback. If no API key is provided, the system seamlessly runs in local deterministic mode.
 
-Live Gemini AI Code synthesis on karne ke liye:
-1. `backend/` me `.env` file banayein:
+To enable **Live AI Code Synthesis** using Google Gemini:
+1. Create a `.env` file inside `backend/`:
    ```bash
    cp backend/.env.example backend/.env
    ```
-2. Apni free Google Gemini API key daalein:
+2. Add your free Google Gemini API key:
    ```env
    GEMINI_API_KEY=your_gemini_api_key_here
    ```
